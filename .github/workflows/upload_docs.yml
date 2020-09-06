@@ -21,13 +21,17 @@ jobs:
     - name: Install deps
       run: poetry install
     - name: Build docs
-      run: poetry run sphinx-build docs docs/_build
+      run: poetry run sphinx-build docs docs/_build/html
+    - uses: actions/upload-artifact@v1
+      with:
+        name: DocumentationHTML
+        path: docs/_build/html
     - name: Commit documentation changes
       run: |
         git clone https://github.com/StarrFox/testing_actions.git --branch gh-pages --single-branch gh-pages
         pwd
         ls
-        xcopy /E /I /Y "docs\_build" "gh-pages"
+        xcopy /E /I /Y docs\_build\html "gh-pages
         cd gh-pages
         git config --local user.email "action@github.com"
         git config --local user.name "GitHub Action"
